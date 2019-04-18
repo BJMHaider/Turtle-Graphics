@@ -68,6 +68,5 @@ public class DrawableTurtle implements Turtle {
         SwingUtilities.invokeLater(() -> {
             (new TurtleGUI(actionList, CANVAS_WIDTH, CANVAS_HEIGHT)).setVisible(true);
         });
-        return;
     }
 }

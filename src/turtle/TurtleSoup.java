@@ -6,6 +6,14 @@ package turtle;
 import java.util.List;
 import java.util.ArrayList;
 
+/**
+ * TurtleSoup Class
+ * 
+ * Allows programmers to issue a series of commands to an on-screen “turtle”
+ * that moves, drawing a line as it goes
+ * 
+ */
+
 public class TurtleSoup {
 
 	/**
@@ -14,13 +22,17 @@ public class TurtleSoup {
 	 * @param turtle
 	 *            the turtle context
 	 * @param sideLength
-	 *            length of each side
+	 *            length of each side is the number of steps to move in the current
+	 *            direction; must be positive
 	 */
-	public static void drawSquare(Turtle turtle, final int sideLength) {
-		final int numSides = 4;
+	public static void drawSquare(final Turtle turtle, final int sideLength) {
+		final int numSides = 4; // Number of square sides
+		final int dgreeAmount = 90; // The degrees amount of change in angle, with positive being clockwise
+
 		for (int i = 0; i < numSides; i++) {
-			turtle.forward(sideLength);
-			turtle.turn(90);
+			turtle.forward(sideLength); // Moves the turtle in the current direction by units pixels, where units is an
+										// integer
+			turtle.turn(dgreeAmount); // Rotates the turtle by angle degrees to the right (clockwise)
 		}
 	}
 
@@ -36,8 +48,9 @@ public class TurtleSoup {
 	 */
 	public static double calculateRegularPolygonAngle(final int sides) {
 		double angle = 0.0;
+		final double straightAngle = 180.0;
 		if (sides > 2)
-			angle = (sides - 2) * 180.0 / sides;
+			angle = (sides - 2) * straightAngle / sides;
 		return angle;
 	}
 
@@ -54,7 +67,9 @@ public class TurtleSoup {
 	 * @return the integer number of sides
 	 */
 	public static int calculatePolygonSidesFromAngle(final double angle) {
-		return (int) Math.round(360.0 / (180.0 - angle));
+		final double straightAngle = 180.0;
+		final double completeAngle = 360.0;
+		return (int) Math.round(completeAngle / (straightAngle - angle));
 	}
 
 	/**
@@ -70,11 +85,12 @@ public class TurtleSoup {
 	 * @param sideLength
 	 *            length of each side
 	 */
-	public static void drawRegularPolygon(Turtle turtle, final int sides, final int sideLength) {
-		double angle = calculateRegularPolygonAngle(sides);
-		for (int i = 0; i < sides; i++) {
+	public static void drawRegularPolygon(final Turtle turtle, final int sides, final int sideLength) {
+		final double angle = calculateRegularPolygonAngle(sides);
+		final double straightAngle = 180.0;
+		for (int i = sides; i > 0; i--) {
 			turtle.forward(sideLength);
-			turtle.turn(angle);
+			turtle.turn(straightAngle - angle);
 		}
 	}
 
@@ -107,8 +123,9 @@ public class TurtleSoup {
 			final int targetX, final int targetY) {
 		final double xCoords = targetX - currentX;
 		final double yCoords = targetY - currentY;
-		double angle = Math.atan(xCoords / yCoords) * 360 / (2 * Math.PI) - currentHeading;
-		return angle < 0.0 ? 360.0 + angle : angle;
+		final double completeAngle = 360.0;
+		double angle = Math.atan(xCoords / yCoords) * completeAngle / (2 * Math.PI) - currentHeading;
+		return angle < 0.0 ? completeAngle + angle : angle;
 
 	}
 
@@ -150,7 +167,7 @@ public class TurtleSoup {
 	 * @param turtle
 	 *            the turtle context
 	 */
-	public static void drawPersonalArt(Turtle turtle) {
+	public static void drawPersonalArt(final Turtle turtle) {
 		final int numSides = 40;
 		final int sideLength = 30;
 		for (int i = 0; i < numSides; i++) {
@@ -178,8 +195,8 @@ public class TurtleSoup {
 		DrawableTurtle turtle = new DrawableTurtle();
 
 		// drawSquare(turtle, 100);
-		// drawRegularPolygon(turtle, 12, 150);
-		drawPersonalArt(turtle);
+		// drawRegularPolygon(turtle, 8, 100);
+		 drawPersonalArt(turtle);
 		turtle.draw();
 	}
 
